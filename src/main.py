@@ -2,7 +2,8 @@ from api.jikan_client import (
     search_anime,
     get_anime_details, 
     get_top_anime, 
-    get_anime_characters
+    get_anime_characters,
+    compare_anime_scores
 ) 
 def main():
     # Example usage of the Jikan API client     
@@ -12,6 +13,7 @@ def main():
         print("2. Get details of an anime by ID")
         print("3. Get top anime")
         print("4. Get characters of an anime by ID")
+        print("5. Compare scores of two anime")
         print("6. Exit")
         print("\n")
 
@@ -44,6 +46,24 @@ def main():
                 for character in characters['data']:
                     print(f"{character['character']['name']} - {character['role']}", "\n")
 
+        elif choice == '5':
+            anime_id1 = input("Enter the ID of the first anime: ")
+            anime_id2 = input("Enter the ID of the second anime: ")
+
+            details1,details2 = compare_anime_scores(anime_id1, anime_id2)
+
+            score1 =details1['data']['score']
+            score2 =details2['data']['score']
+            title1 = details1['data']['title']
+            title2 = details2['data']['title']
+            if score1 > score2:
+                print("\n",f"{title1} has a higher score than {title2}.")
+            elif score1 < score2:
+                print(f"{title2} has a higher score than {title1}.")
+            else:
+                    print(f"{title1} and {title2} have the same score.")
+            print("\n")
+            
         elif choice == '6':
             print("Goodbye!", "\n")
             break

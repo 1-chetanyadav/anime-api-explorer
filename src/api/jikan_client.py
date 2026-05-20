@@ -40,3 +40,11 @@ def get_anime_characters(anime_id):
     else:
         print(f"Error: {response.status_code}")
         return None
+#score compare
+def compare_anime_scores(anime_id1, anime_id2):
+    details1 = get_anime_details(anime_id1)
+    details2 = get_anime_details(anime_id2)
+    assert details1['data']['score'] > 0
+    assert details2['data']['score'] > 0
+
+    return details1, details2
