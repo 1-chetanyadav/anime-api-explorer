@@ -1,4 +1,7 @@
 import requests
+import json
+import os
+
 base_url = "https://api.jikan.moe/v4"
 
 def search_anime(query):
@@ -48,3 +51,30 @@ def compare_anime_scores(anime_id1, anime_id2):
     assert details2['data']['score'] > 0
 
     return details1, details2
+
+def read_file_counter():
+    try:
+        with open('output/file_counter.txt', 'r') as file2:
+            #File counter read successfully
+            content = file2.read().strip()
+            if content == "":
+                return 0
+            return int(content)
+    except FileNotFoundError:
+        #File counter not found. Initializing to 0
+        return 0
+
+def save_anime_details_to_file(anime_details):
+    counter = 0
+    file_counter = read_file_counter()
+    
+    update_file_counter = file_counter + 1
+    with open("output/file_counter.txt", "w") as file3:
+        #Writing counter now...
+        file3.write(str(file_counter + 1))
+        #Counter written successfully.
+    filename = f"anime_details_{update_file_counter}.json"
+    with open(f'output/{filename}','w') as f:
+        json.dump(anime_details, f, indent=4)
+        
+    return filename
